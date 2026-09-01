@@ -1,7 +1,6 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { db } from "@base44/sdk";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
