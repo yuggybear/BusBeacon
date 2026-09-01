@@ -5,7 +5,7 @@ import base44 from '@base44/vite-plugin'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/BusBeacon/',
+  base: '/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
