@@ -1,0 +1,117 @@
+{
+  "name": "DriverCode",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "title": "6-Digit Code"
+    },
+    "bus_id": {
+      "type": "string",
+      "title": "Bus ID"
+    },
+    "bus_number": {
+      "type": "string",
+      "title": "Bus Number"
+    },
+    "school_name": {
+      "type": "string",
+      "title": "School Name"
+    },
+    "used": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "code",
+    "bus_id",
+    "school_name"
+  ],
+  "rls": {
+    "read": {
+      "$and": [
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        }
+      ]
+    },
+    "create": {
+      "$and": [
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        }
+      ]
+    },
+    "update": {
+      "$and": [
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        }
+      ]
+    },
+    "delete": {
+      "$and": [
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        }
+      ]
+    }
+  }
+}

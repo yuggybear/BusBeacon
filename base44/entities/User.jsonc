@@ -1,0 +1,74 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "app_role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "driver",
+        "parent"
+      ]
+    },
+    "school_name": {
+      "type": "string"
+    },
+    "bus_id": {
+      "type": "string"
+    },
+    "stop_id": {
+      "type": "string"
+    },
+    "child_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "notify_proximity": {
+      "type": "boolean",
+      "default": true
+    },
+    "notify_approaching": {
+      "type": "boolean",
+      "default": true
+    },
+    "notify_arrived": {
+      "type": "boolean",
+      "default": true
+    },
+    "notify_broadcasts": {
+      "type": "boolean",
+      "default": true
+    },
+    "proximity_radius": {
+      "type": "number",
+      "default": 0.5,
+      "title": "Proximity Alert Radius (km)"
+    },
+    "map_type": {
+      "type": "string",
+      "enum": [
+        "street",
+        "satellite"
+      ],
+      "default": "street"
+    },
+    "map_follow": {
+      "type": "boolean",
+      "default": true
+    },
+    "is_main_admin": {
+      "type": "boolean",
+      "default": false
+    },
+    "admin_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "admin_document_url": {
+      "type": "string",
+      "title": "Admin Documentation URL"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "name": "SafetyIssue",
+  "type": "object",
+  "properties": {
+    "bus_id": {
+      "type": "string",
+      "title": "Bus ID"
+    },
+    "driver_name": {
+      "type": "string",
+      "title": "Driver Name"
+    },
+    "issue_type": {
+      "type": "string",
+      "enum": [
+        "delay",
+        "traffic",
+        "mechanical",
+        "safety",
+        "other"
+      ],
+      "default": "other"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "stop_index": {
+      "type": "number",
+      "title": "Stop Index"
+    }
+  },
+  "required": [
+    "bus_id",
+    "driver_name",
+    "issue_type",
+    "description"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "data.app_role": "driver"
+          }
+        },
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Student",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "title": "First Name"
+    },
+    "last_name": {
+      "type": "string",
+      "title": "Last Name"
+    },
+    "bus_id": {
+      "type": "string",
+      "title": "Bus ID"
+    },
+    "school_name": {
+      "type": "string",
+      "title": "School Name"
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name",
+    "bus_id",
+    "school_name"
+  ]
+}
