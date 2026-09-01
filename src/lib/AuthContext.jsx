@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { db } from '@base44/sdk';
+
 import { appParams } from '@/lib/app-params';
+
+const db = globalThis.__B44_DB__;
 
 const AuthContext = createContext();
 

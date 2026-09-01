@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { db } from "@base44/sdk";
+
+const db = globalThis.__B44_DB__;
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
