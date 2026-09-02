@@ -2,8 +2,6 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 
 import { appParams } from '@/lib/app-params';
 
-const db = globalThis.__B44_DB__;
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -21,6 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAppState = async () => {
     try {
+      const db = globalThis.__B44_DB__;
       setIsLoadingPublicSettings(true);
       setAuthError(null);
       
@@ -53,6 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserAuth = async () => {
     try {
+      const db = globalThis.__B44_DB__;
       // Now check if the user is authenticated
       setIsLoadingAuth(true);
       const currentUser = await db.auth.me();
@@ -77,6 +77,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = (shouldRedirect = true) => {
+    const db = globalThis.__B44_DB__;
     setUser(null);
     setIsAuthenticated(false);
     
@@ -90,6 +91,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const navigateToLogin = () => {
+    const db = globalThis.__B44_DB__;
     // Use the SDK's redirectToLogin method
     db.auth.redirectToLogin(window.location.href);
   };

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const db = globalThis.__B44_DB__;
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,6 +28,7 @@ export default function Register() {
     }
     setLoading(true);
     try {
+      const db = globalThis.__B44_DB__;
       await db.auth.register({ email, password });
       setShowOtp(true);
     } catch (err) {
@@ -43,6 +42,7 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
+      const db = globalThis.__B44_DB__;
       const result = await db.auth.verifyOtp({ email, otpCode });
       if (result?.access_token) {
         db.auth.setToken(result.access_token);
@@ -58,6 +58,7 @@ export default function Register() {
   const handleResend = async () => {
     setError("");
     try {
+      const db = globalThis.__B44_DB__;
       await db.auth.resendOtp(email);
       toast({
         title: "Code sent",
@@ -69,6 +70,7 @@ export default function Register() {
   };
 
   const handleGoogle = () => {
+    const db = globalThis.__B44_DB__;
     db.auth.loginWithProvider("google", "/");
   };
 

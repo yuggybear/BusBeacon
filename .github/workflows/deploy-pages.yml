@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -32,11 +32,6 @@ jobs:
 
       - name: Build app
         run: npm run build
-        env:
-          VITE_BASE44_APP_ID: ${{ secrets.VITE_BASE44_APP_ID }}
-          VITE_BASE44_APP_BASE_URL: ${{ secrets.VITE_BASE44_APP_BASE_URL }}
-          VITE_BASE44_FUNCTIONS_VERSION: ${{ secrets.VITE_BASE44_FUNCTIONS_VERSION }}
-          BASE44_LEGACY_SDK_IMPORTS: ${{ secrets.BASE44_LEGACY_SDK_IMPORTS || 'false' }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
