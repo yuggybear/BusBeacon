@@ -1,0 +1,126 @@
+{
+  "name": "ScheduleException",
+  "type": "object",
+  "properties": {
+    "school_name": {
+      "type": "string",
+      "title": "School Name"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Date"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "holiday",
+        "no_service",
+        "early_dismissal",
+        "late_start",
+        "field_trip"
+      ],
+      "default": "holiday",
+      "title": "Exception Type"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "affected_bus_id": {
+      "type": "string",
+      "title": "Affected Bus ID (blank = all buses)"
+    },
+    "alternate_time": {
+      "type": "string",
+      "title": "Alternate Departure/Arrival Time"
+    }
+  },
+  "required": [
+    "school_name",
+    "date",
+    "type",
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$and": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "update": {
+      "$and": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "delete": {
+      "$and": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

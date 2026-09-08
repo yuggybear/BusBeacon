@@ -1,0 +1,166 @@
+{
+  "name": "Bus",
+  "type": "object",
+  "properties": {
+    "bus_number": {
+      "type": "string",
+      "title": "Bus Number"
+    },
+    "school_name": {
+      "type": "string",
+      "title": "School Name"
+    },
+    "school_district": {
+      "type": "string",
+      "title": "School District"
+    },
+    "current_lat": {
+      "type": "number",
+      "title": "Current Latitude"
+    },
+    "current_lng": {
+      "type": "number",
+      "title": "Current Longitude"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "inactive",
+        "active",
+        "on_route",
+        "at_school"
+      ],
+      "default": "inactive"
+    },
+    "assigned_driver_id": {
+      "type": "string",
+      "title": "Assigned Driver ID"
+    },
+    "active_driver_id": {
+      "type": "string",
+      "title": "Active Driver ID"
+    },
+    "active_driver_type": {
+      "type": "string",
+      "enum": [
+        "regular",
+        "sub"
+      ],
+      "default": "regular"
+    },
+    "claim_start_time": {
+      "type": "string",
+      "title": "Claim Start Time"
+    },
+    "current_stop_index": {
+      "type": "number",
+      "default": 0
+    },
+    "route_started": {
+      "type": "boolean",
+      "default": false
+    },
+    "scheduled_departure": {
+      "type": "string",
+      "title": "Scheduled Departure Time"
+    },
+    "last_delay_minutes": {
+      "type": "number",
+      "title": "Last Stop Delay Minutes"
+    },
+    "route_start_time": {
+      "type": "string",
+      "title": "Route Start Time"
+    },
+    "route_end_time": {
+      "type": "string",
+      "title": "Route End Time"
+    },
+    "join_code": {
+      "type": "string",
+      "title": "Join Code"
+    },
+    "trip_direction": {
+      "type": "string",
+      "enum": [
+        "to_school",
+        "from_school"
+      ],
+      "default": "to_school"
+    }
+  },
+  "required": [
+    "bus_number",
+    "school_name"
+  ],
+  "rls": {
+    "create": {
+      "$and": [
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "$and": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "data.school_name": "{{user.data.school_name}}"
+            }
+          ]
+        },
+        {
+          "user_condition": {
+            "data.app_role": "driver"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$and": [
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        }
+      ]
+    }
+  }
+}

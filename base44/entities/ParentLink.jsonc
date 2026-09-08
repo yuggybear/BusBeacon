@@ -1,0 +1,140 @@
+{
+  "name": "ParentLink",
+  "type": "object",
+  "properties": {
+    "student_name": {
+      "type": "string",
+      "title": "Student Name"
+    },
+    "bus_id": {
+      "type": "string",
+      "title": "Bus ID"
+    },
+    "stop_id": {
+      "type": "string",
+      "title": "Stop ID"
+    },
+    "school_name": {
+      "type": "string",
+      "title": "School Name"
+    }
+  },
+  "required": [
+    "student_name",
+    "bus_id",
+    "stop_id",
+    "school_name"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "$and": [
+            {
+              "$or": [
+                {
+                  "user_condition": {
+                    "data.app_role": "admin"
+                  }
+                },
+                {
+                  "user_condition": {
+                    "role": "admin"
+                  }
+                }
+              ]
+            },
+            {
+              "data.school_name": "{{user.data.school_name}}"
+            }
+          ]
+        }
+      ]
+    },
+    "create": {
+      "$and": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "parent"
+              }
+            },
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "$and": [
+            {
+              "$or": [
+                {
+                  "user_condition": {
+                    "data.app_role": "admin"
+                  }
+                },
+                {
+                  "user_condition": {
+                    "role": "admin"
+                  }
+                }
+              ]
+            },
+            {
+              "data.school_name": "{{user.data.school_name}}"
+            }
+          ]
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "$and": [
+            {
+              "$or": [
+                {
+                  "user_condition": {
+                    "data.app_role": "admin"
+                  }
+                },
+                {
+                  "user_condition": {
+                    "role": "admin"
+                  }
+                }
+              ]
+            },
+            {
+              "data.school_name": "{{user.data.school_name}}"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

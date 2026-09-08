@@ -1,0 +1,159 @@
+{
+  "name": "Broadcast",
+  "type": "object",
+  "properties": {
+    "sender_name": {
+      "type": "string",
+      "title": "Sender Name"
+    },
+    "sender_role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "driver"
+      ],
+      "default": "admin"
+    },
+    "school_name": {
+      "type": "string",
+      "title": "School Name"
+    },
+    "title": {
+      "type": "string",
+      "title": "Title"
+    },
+    "message": {
+      "type": "string",
+      "title": "Message"
+    },
+    "audience": {
+      "type": "string",
+      "enum": [
+        "all",
+        "all_parents",
+        "all_drivers",
+        "bus_specific"
+      ],
+      "default": "all"
+    },
+    "target_bus_id": {
+      "type": "string",
+      "title": "Target Bus ID"
+    },
+    "target_bus_number": {
+      "type": "string",
+      "title": "Target Bus Number"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "normal",
+        "urgent"
+      ],
+      "default": "normal"
+    }
+  },
+  "required": [
+    "sender_name",
+    "sender_role",
+    "school_name",
+    "message",
+    "audience"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$and": [
+        {
+          "data.school_name": "{{user.data.school_name}}"
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "data.app_role": "admin"
+              }
+            },
+            {
+              "user_condition": {
+                "data.app_role": "driver"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "$and": [
+            {
+              "data.school_name": "{{user.data.school_name}}"
+            },
+            {
+              "$or": [
+                {
+                  "user_condition": {
+                    "data.app_role": "admin"
+                  }
+                },
+                {
+                  "user_condition": {
+                    "role": "admin"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "$and": [
+            {
+              "data.school_name": "{{user.data.school_name}}"
+            },
+            {
+              "$or": [
+                {
+                  "user_condition": {
+                    "data.app_role": "admin"
+                  }
+                },
+                {
+                  "user_condition": {
+                    "role": "admin"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

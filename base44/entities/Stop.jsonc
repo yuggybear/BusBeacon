@@ -1,0 +1,101 @@
+{
+  "name": "Stop",
+  "type": "object",
+  "properties": {
+    "bus_id": {
+      "type": "string",
+      "title": "Bus ID"
+    },
+    "name": {
+      "type": "string",
+      "title": "Stop Name"
+    },
+    "address": {
+      "type": "string",
+      "title": "Address"
+    },
+    "latitude": {
+      "type": "number",
+      "title": "Latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "title": "Longitude"
+    },
+    "stop_order": {
+      "type": "number",
+      "title": "Stop Order"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "title": "Scheduled Arrival Time"
+    },
+    "actual_arrival": {
+      "type": "string",
+      "title": "Actual Arrival Time"
+    }
+  },
+  "required": [
+    "bus_id",
+    "name",
+    "latitude",
+    "longitude",
+    "stop_order"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "$and": [
+            {
+              "user_condition": {
+                "data.app_role": "driver"
+              }
+            },
+            {
+              "data.bus_id": "{{user.data.bus_id}}"
+            }
+          ]
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "data.app_role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
