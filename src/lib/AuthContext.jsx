@@ -1,4 +1,4 @@
-import db from '@/api/base44Client';
+import db, { supabase } from '@/api/base44Client';
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
@@ -10,10 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
-
-  useEffect(() => {
-    checkUserAuth();
-  }, []);
 
   const checkUserAuth = async () => {
     try {
@@ -28,22 +24,38 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingAuth(false);
       setIsAuthenticated(false);
       setAuthChecked(true);
-
-      if (error.status === 401 || error.status === 403) {
-        setAuthError({
-          type: 'auth_required',
-          message: 'Authentication required'
-        });
+      if (error && (error.status === 401 || error.status === 403)) {
+        setAuthError({ type: 'auth_required', message: 'Authentication required' });
       }
     }
   };
 
+  useEffect(() => {
+    // Check initial session
+    checkUserAuth();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      (async () => {
+        if (session) {
+          await checkUserAuth();
+        } else {
+          setUser(null);
+          setIsAuthenticated(false);
+          setAuthChecked(true);
+          setIsLoadingAuth(false);
+        }
+      })();
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   const logout = (shouldRedirect = true) => {
     setUser(null);
     setIsAuthenticated(false);
-
     if (shouldRedirect) {
-      db.auth.logout(window.location.href);
+      db.auth.logout('/login');
     } else {
       db.auth.logout();
     }

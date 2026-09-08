@@ -30,8 +30,12 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      await db.auth.register({ email, password });
-      setShowOtp(true);
+      const result = await db.auth.register({ email, password });
+      if (result?.access_token) {
+        window.location.href = "/";
+      } else {
+        setShowOtp(true);
+      }
     } catch (err) {
       setError(err.message || "Registration failed");
     } finally {
